@@ -22,19 +22,41 @@ class Amr extends CI_Controller
 	public function index()
 	{
 		$data['title'] = 'Data AMR';
-		$data['content'] = 'amr/index';
-		$this->load->view('layout/wrapper', $data);
+		$this->load->view('amr', $data);
 	}
 
 
-	public function dpox()
+	public function export()
 	{
-		$date = '2026-07-01';
 
-		$startdate = new DateTime($date);
-		$enddate = new DateTime(date("Y-m-t", strtotime($date)));
+		$bulan = $this->input->post('bulan');
+		if (empty($bulan)) {
+			//view form input bulan
+			echo 'tanggal tidak boleh kosong,';
+			// $this->load->view('laporan/eklaim');
+			return;
+		}
 
-		$directoryPath = FCPATH . 'amr';
+		$mount = explode(' - ', trim($bulan));
+
+		$start = DateTime::createFromFormat('d/m/Y', trim($mount[0]));
+		$end   = DateTime::createFromFormat('d/m/Y', trim($mount[1]));
+
+		$startdate = $start->format('Y-m-d');
+		$enddate   = $end->format('Y-m-d');
+		// print_r($bulan);
+		// print_r($mount);
+		// echo '<br>';
+		// print_r($startdate);
+		// echo '<br>';
+		// print_r($enddate);
+		// exit();
+		// $date = '2026-07-01';
+
+		// $startdate = new DateTime($date);
+		// $enddate = new DateTime(date("Y-m-t", strtotime($date)));
+
+		$directoryPath = FCPATH . 'public/amr';
 
 		if (! is_dir($directoryPath)) {
 			mkdir($directoryPath, 0777, TRUE);

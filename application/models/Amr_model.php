@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Amr_model extends CI_Model {
+class Amr_model extends CI_Model
+{
 
 	private $_shared_db_live;
 	private $_shared_db_rme;
@@ -21,7 +22,7 @@ class Amr_model extends CI_Model {
 		$prop = ($group === 'db_rme') ? '_shared_db_rme' : '_shared_db_live';
 		$db = $this->$prop;
 
-		if ( ! $db->conn_id) {
+		if (! $db->conn_id) {
 			$db->initialize();
 			$db->query("SET SESSION wait_timeout = 28800");
 			return;
@@ -52,7 +53,7 @@ class Amr_model extends CI_Model {
 		}
 		return $this->load->database($group, TRUE);
 	}
-	
+
 	public function total_billing_ipd($ipd)
 	{
 		$db_live = $this->_db('db_live');
@@ -64,7 +65,7 @@ class Amr_model extends CI_Model {
 		$query = $db_live->get();
 		return $query->row()->total_billing;
 	}
-	
+
 	public function monoterapi_kombinasi($ipd)
 	{
 		$db_live = $this->_db('db_live');
@@ -87,7 +88,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->row();
 	}
-	
+
 	public function pharmacy_resep_finished($ipd, $pharmacy_id)
 	{
 		$db_live = $this->_db('db_live');
@@ -108,7 +109,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->row();
 	}
-	
+
 	public function rujukan_igd($case_reference_id)
 	{
 		$db_live = $this->_db('db_live');
@@ -131,7 +132,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->row();
 	}
-	
+
 	public function rujukan_opd($case_reference_id)
 	{
 		$db_live = $this->_db('db_live');
@@ -145,7 +146,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->row();
 	}
-	
+
 	public function patient_medicine($start_date, $end_date)
 	{
 		$db_live = $this->_db('db_live');
@@ -237,7 +238,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->result();
 	}
-	
+
 	public function order_labor_mk_ipd($ipd)
 	{
 		$db_live = $this->_db('db_live');
@@ -252,7 +253,7 @@ class Amr_model extends CI_Model {
 		$query = $db_live->get();
 		return $query->result();
 	}
-	
+
 	public function patient_medicines($patient_id, $date)
 	{
 		$db_live = $this->_db('db_live');
@@ -329,7 +330,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->result();
 	}
-	
+
 	public function patient_dpo($start_date, $end_date)
 	{
 		$db_live = $this->_db('db_live');
@@ -398,7 +399,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->result();
 	}
-	
+
 	public function nama_depo($gudang_id)
 	{
 		$db_live = $this->_db('db_live');
@@ -408,7 +409,7 @@ class Amr_model extends CI_Model {
 		$query = $db_live->get();
 		return $query->row()->depo;
 	}
-	
+
 	public function patient_dpos($patient_id, $date)
 	{
 		$db_live = $this->_db('db_live');
@@ -474,7 +475,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->result();
 	}
-	
+
 	public function patient_dpox($start_date, $end_date)
 	{
 		$db_live = $this->_db('db_live');
@@ -563,7 +564,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->result();
 	}
-	
+
 	public function patient_ipd($start_date, $end_date)
 	{
 		$db_live = $this->_db('db_live');
@@ -656,7 +657,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->result();
 	}
-	
+
 	public function patient_ipdx($start_date, $end_date)
 	{
 		$db_live = $this->_db('db_live');
@@ -749,7 +750,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->result();
 	}
-	
+
 	public function pharmacy_dpo_finished($ipd, $pharmacy_id)
 	{
 		$db_rme = $this->_db('db_rme');
@@ -765,7 +766,23 @@ class Amr_model extends CI_Model {
 		');
 		return $query->row();
 	}
-	
+
+	public function pharmacy_dpo_finished_mutasi($ipd)
+	{
+		$db_rme = $this->_db('db_rme');
+		$query = $db_rme->query('
+			SELECT
+				nama_obat,
+				tanggal_mulai AS pharmacy_resep_started
+			FROM
+				dpo_list_obat
+			WHERE
+				ipd_id = "' . $ipd . '"
+				AND id_obat IN (305, 306, 322, 324, 325, 326, 327, 328, 399, 400, 418, 419, 658, 667, 707, 708, 709, 861, 875, 1017, 1166, 1167, 1176, 1177, 1210, 1212, 1253, 1255, 1256, 1257, 1328, 1360, 1361, 1362, 1378, 1379, 1568, 1618, 1712, 1713, 1714, 1715, 1717, 1718, 1719, 1720, 1721, 1722, 1723, 1724, 1725, 1726, 1768, 1769, 2078, 2251, 2265, 3616, 3801, 3828, 3878, 3972, 4410, 4993)
+		');
+		return $query;
+	}
+
 	public function laporan_operasi_ipd($ipd)
 	{
 		$db_rme = $this->_db('db_rme');
@@ -781,7 +798,7 @@ class Amr_model extends CI_Model {
 		');
 		return $query->result();
 	}
-	
+
 	public function patient_weight($ipd_id)
 	{
 		$db_rme = $this->_db('db_rme');
@@ -793,7 +810,7 @@ class Amr_model extends CI_Model {
 		$query = $db_rme->get();
 		return $query->row();
 	}
-	
+
 	public function diagnosa_awal($ipd_id)
 	{
 		$db_rme = $this->_db('db_rme');
@@ -805,7 +822,7 @@ class Amr_model extends CI_Model {
 		$query = $db_rme->get();
 		return $query->row();
 	}
-	
+
 	public function discharged_summary($ipd_id)
 	{
 		$db_rme = $this->_db('db_rme');
@@ -817,7 +834,7 @@ class Amr_model extends CI_Model {
 		$query = $db_rme->get();
 		return $query->row();
 	}
-	
+
 	public function pharmacy_dpo_checked($ipd)
 	{
 		$db_rme = $this->_db('db_rme');
