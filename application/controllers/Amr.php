@@ -346,7 +346,7 @@ class Amr extends CI_Controller
 				}
 			}
 
-			$file_name_xlsx = 'Data AMR ' . $date . ' - ' . date("Y-m-t", strtotime($date)) . '.xlsx';
+			$file_name_xlsx = 'Data AMR ' . $startdate->format('Y-m-d') . ' - ' . $enddate->format('Y-m-d') . '.xlsx';
 
 			$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
 			$writer->save($directoryPath . DIRECTORY_SEPARATOR . $file_name_xlsx);
