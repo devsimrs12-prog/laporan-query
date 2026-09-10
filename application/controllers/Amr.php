@@ -39,11 +39,11 @@ class Amr extends CI_Controller
 
 		$mount = explode(' - ', trim($bulan));
 
-		$start = DateTime::createFromFormat('d/m/Y', trim($mount[0]));
-		$end   = DateTime::createFromFormat('d/m/Y', trim($mount[1]));
+		$startdate = DateTime::createFromFormat('d/m/Y', trim($mount[0]));
+		$enddate   = DateTime::createFromFormat('d/m/Y', trim($mount[1]));
 
-		$startdate = $start->format('Y-m-d');
-		$enddate   = $end->format('Y-m-d');
+		// $startdate = $start->format('Y-m-d');
+		// $enddate   = $end->format('Y-m-d');
 		// print_r($bulan);
 		// print_r($mount);
 		// echo '<br>';
